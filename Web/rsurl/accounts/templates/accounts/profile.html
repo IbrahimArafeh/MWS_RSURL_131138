@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    {% load static %}
+   
+        <title>Troweld</title>
+      
+        <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" type="text/css" href="/static/home/css/bootstrap.css" />
+      
+        <!-- Fonts style -->
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+        <!-- Owl slider stylesheet -->
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+        <!-- Nice select -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4=" crossorigin="anonymous" />
+        <!-- DataTables CSS -->
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+      
+        <!-- Font awesome style -->
+        <link href="/static/home/css/font-awesome.min.css" rel="stylesheet" />
+      
+        <!-- Custom styles for this template -->
+        <link href="/static/home/css/style.css" rel="stylesheet" />
+        <!-- Responsive style -->
+        <link href="/static/home/css/responsive.css" rel="stylesheet" />
+  
+      
+    <link rel="stylesheet" type="text/css" href="{% static 'accounts/css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>User Profile</h1>
+        <p><strong>Username:</strong> {{ user_profile.user.username }}</p>
+        <p><strong>Email:</strong> {{ user_profile.user.email }}</p>
+        <p><strong>Age:</strong> {{ user_profile.age }}</p>
+        <p><strong>Gender:</strong> {{ user_profile.get_gender_display }}</p>
+        <p><strong>Salary:</strong> {{ user_profile.salary }}</p>
+        
+        <!-- Add buttons for navigation -->
+        <div class="button-container">
+            <a href="{% url 'home' %}" class="btn btn-primary">Home</a>
+            <a href="{% url 'recommendations_view'  %}" class="btn btn-primary">Recommended Movies</a>
+        </div>
+    </div>
+</body>
+</html>

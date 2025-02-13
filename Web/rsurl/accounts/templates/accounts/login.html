@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'accounts/css/styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="screen">
+            <div class="screen__content">
+                <!-- Display messages here -->
+                <div class="messages"></div>
+                
+                <form class="login" method="post">
+                    {% csrf_token %}
+                    <div class="login__field">
+                        <i class="login__icon fas fa-user"></i>
+                        <input type="text" class="login__input" name="username" placeholder="User name / Email" required>
+                    </div>
+                    <div class="login__field">
+                        <i class="login__icon fas fa-lock"></i>
+                        <input type="password" class="login__input" name="password" placeholder="Password" required>
+                    </div>
+                    <button class="button login__submit">
+                        <span class="button__text">Log In Now</span>
+                        <i class="button__icon fas fa-chevron-right"></i>
+                    </button>                
+                </form>
+                <div class="register-link">
+                    <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+                </div>
+            </div>
+            <div class="screen__background">
+                <span class="screen__background__shape screen__background__shape4"></span>
+                <span class="screen__background__shape screen__background__shape3"></span>      
+                <span class="screen__background__shape screen__background__shape2"></span>
+                <span class="screen__background__shape screen__background__shape1"></span>
+            </div>      
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const alertsContainer = document.querySelector('.messages');
+
+            // Function to create and show alert
+            function showAlert(message, type) {
+                const alertDiv = document.createElement('div');
+                alertDiv.className = `soft-alert soft-alert-${type}`;
+                alertDiv.innerHTML = `${message} <span class="close-alert">&times;</span>`;
+                
+                alertsContainer.appendChild(alertDiv);
+                
+                // Add click event to close button
+                alertDiv.querySelector('.close-alert').addEventListener('click', () => {
+                    alertDiv.style.opacity = '0';
+                    setTimeout(() => alertDiv.remove(), 600);
+                });
+
+                // Automatically fade out after 5 seconds
+                setTimeout(() => {
+                    alertDiv.style.opacity = '0';
+                    setTimeout(() => alertDiv.remove(), 600);
+                }, 5000);
+            }
+
+            // Show the alert after 2 seconds
+            setTimeout(() => {
+                {% if messages %}
+                    const messages = [
+                        {% for message in messages %}
+                            { text: "{{ message|escapejs }}", tags: "{{ message.tags }}" },
+                        {% endfor %}
+                    ];
+                    messages.forEach(msg => showAlert(msg.text, msg.tags));
+                {% endif %}
+            }, 20);
+        });
+    </script>
+</body>
+</html>

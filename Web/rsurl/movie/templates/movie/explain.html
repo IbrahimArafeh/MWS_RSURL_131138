@@ -1,0 +1,68 @@
+{% extends "home/base.html" %}
+
+{% block content %}
+<!-- Explanation section -->
+<section class="portfolio_section">
+  <div class="container">
+    <div class="heading_container heading_center">
+      <h2>Explanation for Movie ID: {{ movie_id }} that you like</h2>
+    </div>
+    <div class="carousel-wrap">
+
+    </div>
+
+    <div class="row portfolio_grid">
+      {% for movie in similar_movies %}
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 portfolio_item" data-genre="{% for genre in movie.genres.all %}{{ genre.name|lower }} {% endfor %}">
+          <div class="box">
+            <div class="img-box">
+                <img src="/static/home/images/movie_images/movie{{ movie.image_index }}.jpg" alt="{{ movie.title }}" class="img-fluid">
+                <div class="btn_overlay">
+                <a href="{% url 'movie_detail' movie.movie_id %}" class="btn btn-primary">See More</a>
+              </div>
+            </div>
+            <div class="movie-info">
+              <h3>{{ movie.title }}</h3>
+              <p>Genres:
+                {% for genre in movie.genres.all %}
+                  {{ genre.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+              </p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const filterLinks = document.querySelectorAll('.owl-filter-bar .item');
+  const portfolioItems = document.querySelectorAll('.portfolio_item');
+
+  filterLinks.forEach(link => {
+    link.addEventListener('click', function(event) {
+      event.preventDefault();
+      const filter = this.getAttribute('data-filter');
+
+      filterLinks.forEach(link => link.classList.remove('active'));
+      this.classList.add('active');
+
+      portfolioItems.forEach(item => {
+        if (filter === 'all') {
+          item.style.display = 'block';
+        } else {
+          const genres = item.getAttribute('data-genre').trim().split(/\s+/);
+          if (genres.includes(filter)) {
+            item.style.display = 'block';
+          } else {
+            item.style.display = 'none';
+          }
+        }
+      });
+    });
+  });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "home/base.html" %}
+
+{% block content %}
+<!-- Recommendations section -->
+<section class="portfolio_section">
+  <div class="container">
+    <div class="heading_container heading_center">
+      <h2>We Recommend for You</h2>
+    </div>
+    <div class="carousel-wrap">
+      <div class="filter_box">
+        <nav class="owl-filter-bar">
+          <a href="#" class="item active" data-filter="all">All</a>
+          {% for genre in genres %}
+          <a href="#" class="item" data-filter="{{ genre.name|lower }}">{{ genre.name }}</a>
+          {% endfor %}
+        </nav>
+      </div>
+    </div>
+
+    <div class="row portfolio_grid">
+      {% for movie in movies %}
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 portfolio_item" data-genre="{% for genre in movie.genres.all %}{{ genre.name|lower }} {% endfor %}">
+          <div class="box">
+            <div class="img-box">
+              <img src="/static/home/images/movie_images/movie{{ movie.image_index }}.jpg" alt="{{ movie.title }}" class="img-fluid">
+              <!-- Optional debugging line to verify the image number -->
+              <!-- <h3>movie{{ movie.image_index }}.jpg</h3> -->
+              <div class="btn_overlay">
+                <a href="{% url 'explain_view' movie.id %}" class="btn btn-primary">See Explanation</a>
+              </div>
+            </div>
+            <div class="movie-info">
+              <h3>{{ movie.title }}</h3>
+              <p>Genres:
+                {% for genre in movie.genres.all %}
+                  {{ genre.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+              </p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    
+    </div>
+  </div>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const filterLinks = document.querySelectorAll('.owl-filter-bar .item');
+  const portfolioItems = document.querySelectorAll('.portfolio_item');
+
+  filterLinks.forEach(link => {
+    link.addEventListener('click', function(event) {
+      event.preventDefault();
+      const filter = this.getAttribute('data-filter');
+
+      filterLinks.forEach(link => link.classList.remove('active'));
+      this.classList.add('active');
+
+      portfolioItems.forEach(item => {
+        if (filter === 'all') {
+          item.style.display = 'block';
+        } else {
+          const genres = item.getAttribute('data-genre').trim().split(/\s+/);
+          if (genres.includes(filter)) {
+            item.style.display = 'block';
+          } else {
+            item.style.display = 'none';
+          }
+        }
+      });
+    });
+  });
+});
+</script>
+{% endblock %}

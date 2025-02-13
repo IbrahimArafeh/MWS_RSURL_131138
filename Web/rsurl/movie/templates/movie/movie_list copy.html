@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>Troweld</title>
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="/static/home/css/bootstrap.css" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- owl slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <!-- nice select -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4=" crossorigin="anonymous" />
+  <!-- font awesome style -->
+  <link href="/static/home/css/font-awesome.min.css" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="/static/home/css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="/static/home/css/responsive.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div class="hero_area">
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="header_top">
+        <div class="container-fluid header_top_container">
+          <a class="navbar-brand " href="index.html"> movie<span>HUNT</span> </a>
+          <div class="contact_nav">
+            <a href="">
+              <i class="fa fa-phone" aria-hidden="true"></i>
+              <span>
+                Call : +01 123455678990
+              </span>
+            </a>
+            <a href="">
+              <i class="fa fa-envelope" aria-hidden="true"></i>
+              <span>
+                movie@gmail.com
+              </span>
+            </a>
+          </div>
+          <div class="social_box">
+            <a href="">
+              <i class="fa fa-facebook" aria-hidden="true"></i>
+            </a>
+            <a href="">
+              <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a href="">
+              <i class="fa fa-linkedin" aria-hidden="true"></i>
+            </a>
+            <a href="">
+              <i class="fa fa-instagram" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="header_bottom">
+        <div class="container-fluid">
+          <nav class="navbar navbar-expand-lg custom_nav-container ">
+            <a class="navbar-brand navbar_brand_mobile" href="/"> Tro<span>Weld</span> </a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class=""> </span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav  ">
+                <li class="nav-item active">
+                  <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="movies">Movies</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="about.html"> About</a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link" href="contact.html">Contact Us</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/accounts/login">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    <span>
+                      Login
+                    </span>
+                  </a>
+                </li>
+                <form class="form-inline">
+                  <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                  </button>
+                </form>
+              </ul>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </header>
+    <!-- end header section -->
+  
+
+<!-- portfolio section -->
+<section class="portfolio_section">
+  <div class="container">
+    <div class="heading_container heading_center">
+      <h2>All Movies</h2>
+    </div>
+    <div class="carousel-wrap">
+      <div class="filter_box">
+        <nav class="owl-filter-bar">
+          <a href="#" class="item active" data-owl-filter="*">All</a>
+          <!-- Add other genre filters dynamically here if needed -->
+          {% for genre in genres %}
+          <a href="#" class="item" data-owl-filter=".{{ genre.name|lower }}">{{ genre.name }}</a>
+          {% endfor %}
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <div class="owl-carousel portfolio_carousel">
+    {% for movie in movies %}
+    <div class="item {% for genre in movie.genres.all %}{{ genre.name|lower }} {% endfor %}">
+      <div class="box">
+        <div class="movie-info">
+          <h3>{{ movie.title }}</h3>
+          <p>Genres: 
+            {% for genre in movie.genres.all %}
+              {{ genre.name }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+          </p>
+          <div class="btn_overlay">
+            <a href="{% url 'movie_detail' movie.id %}" class="">See More</a>
+            <!-- Replace 'movie_detail' with your movie detail view URL name -->
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+<!-- end portfolio section -->
+
+{% endblock %}
